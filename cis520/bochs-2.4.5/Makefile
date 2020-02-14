@@ -19,7 +19,7 @@
 # the following rules:
 #   use $(VAR) not ${VAR}
 
-prefix          = /usr/local
+prefix          = /home/s/sreenikhil006/cis520/usr/local
 exec_prefix     = ${prefix}
 srcdir          = .
 
@@ -85,8 +85,8 @@ SHELL = /bin/sh
 
 CC = gcc
 CXX = g++
-CFLAGS = -g -O2 -D_FILE_OFFSET_BITS=64 -D_LARGE_FILES  $(MCH_CFLAGS) $(FLA_FLAGS)  -DBX_SHARE_PATH='"$(sharedir)"'
-CXXFLAGS = -g -O2 -D_FILE_OFFSET_BITS=64 -D_LARGE_FILES  $(MCH_CFLAGS) $(FLA_FLAGS)  -DBX_SHARE_PATH='"$(sharedir)"'
+CFLAGS = -g -O2 -D_FILE_OFFSET_BITS=64 -D_LARGE_FILES  $(X_CFLAGS) $(MCH_CFLAGS) $(FLA_FLAGS)  -DBX_SHARE_PATH='"$(sharedir)"'
+CXXFLAGS = -g -O2 -D_FILE_OFFSET_BITS=64 -D_LARGE_FILES  $(X_CFLAGS) $(MCH_CFLAGS) $(FLA_FLAGS)  -DBX_SHARE_PATH='"$(sharedir)"'
 
 LDFLAGS = 
 LIBS =  -lm
@@ -110,7 +110,7 @@ GUI_LINK_OPTS_CARBON = -framework Carbon
 GUI_LINK_OPTS_NOGUI =
 GUI_LINK_OPTS_TERM = -lncurses
 GUI_LINK_OPTS_WX = 
-GUI_LINK_OPTS =  $(GUI_LINK_OPTS_TERM)  
+GUI_LINK_OPTS =  $(GUI_LINK_OPTS_X) $(GUI_LINK_OPTS_TERM)  
 RANLIB = ranlib
 
 CFLAGS_CONSOLE = -g -O2 -D_FILE_OFFSET_BITS=64 -D_LARGE_FILES $(MCH_CFLAGS) $(FLA_FLAGS)
@@ -154,7 +154,7 @@ DEBUGGER_LIB   = bx_debug/libdebug.a
 DISASM_LIB     = disasm/libdisasm.a
 INSTRUMENT_LIB = instrument/stubs/libinstrument.a
 FPU_LIB        = fpu/libfpu.a
-READLINE_LIB   = -lreadline
+READLINE_LIB   = 
 EXTRA_LINK_OPTS = 
 
 GDBSTUB_OBJS = gdbstub.o
@@ -174,14 +174,14 @@ all: bochs  bximage bxcommit
 
 
 
-bochs: iodev/libiodev.a $(DEBUGGER_LIB) \
+bochs: iodev/libiodev.a  \
            cpu/libcpu.a memory/libmemory.a gui/libgui.a \
            $(DISASM_LIB)  $(BX_OBJS) \
-           $(SIMX86_OBJS) $(FPU_LIB)  
+           $(SIMX86_OBJS) $(FPU_LIB) $(GDBSTUB_OBJS) 
 	$(LIBTOOL) --mode=link $(CXX) -o $@ $(CXXFLAGS) $(LDFLAGS) -export-dynamic $(BX_OBJS) $(SIMX86_OBJS) \
-		iodev/libiodev.a $(DEBUGGER_LIB) cpu/libcpu.a memory/libmemory.a gui/libgui.a \
+		iodev/libiodev.a  cpu/libcpu.a memory/libmemory.a gui/libgui.a \
 		$(DISASM_LIB)   \
-		 $(FPU_LIB) \
+		$(GDBSTUB_OBJS) $(FPU_LIB) \
 		$(GUI_LINK_OPTS) \
 		$(MCH_LINK_FLAGS) \
 		$(SIMX86_LINK_FLAGS) \
@@ -192,22 +192,22 @@ bochs: iodev/libiodev.a $(DEBUGGER_LIB) \
 # Special make target for cygwin/mingw using dlltool instead of
 # libtool.  This creates a .DEF file, and exports file, an import library,
 # and then links bochs.exe with the exports file.
-.win32_dll_plugin_target: iodev/libiodev.a $(DEBUGGER_LIB) \
+.win32_dll_plugin_target: iodev/libiodev.a  \
            cpu/libcpu.a memory/libmemory.a gui/libgui.a \
            $(DISASM_LIB)  $(BX_OBJS) \
-           $(SIMX86_OBJS) $(FPU_LIB)  
+           $(SIMX86_OBJS) $(FPU_LIB) $(GDBSTUB_OBJS) 
 	$(DLLTOOL) --export-all-symbols --output-def bochs.def \
 		$(BX_OBJS) $(SIMX86_OBJS) \
 		iodev/libiodev.a cpu/libcpu.a memory/libmemory.a gui/libgui.a \
-		$(DEBUGGER_LIB) $(DISASM_LIB)   \
-		 $(FPU_LIB)
+		 $(DISASM_LIB)   \
+		$(GDBSTUB_OBJS) $(FPU_LIB)
 	$(DLLTOOL) --dllname bochs.exe --def bochs.def --output-lib dllexports.a
 	$(DLLTOOL) --dllname bochs.exe --output-exp bochs.exp --def bochs.def
 	$(CXX) -o bochs.exe $(CXXFLAGS) $(LDFLAGS) -export-dynamic \
 	    $(BX_OBJS) bochs.exp $(SIMX86_OBJS) \
 		iodev/libiodev.a cpu/libcpu.a memory/libmemory.a gui/libgui.a \
-		$(DEBUGGER_LIB) $(DISASM_LIB)   \
-		 $(FPU_LIB) \
+		 $(DISASM_LIB)   \
+		$(GDBSTUB_OBJS) $(FPU_LIB) \
 		$(GUI_LINK_OPTS) \
 		$(MCH_LINK_FLAGS) \
 		$(SIMX86_LINK_FLAGS) \
@@ -291,7 +291,7 @@ libbochs.a:
 	ar rv libbochs.a $(EXTERN_ENVIRONMENT_OBJS)
 	$(RANLIB) libbochs.a
 
-libbochs_cpu.a: $(DEBUGGER_LIB) $(BX_OBJS)
+libbochs_cpu.a:  $(BX_OBJS)
 	-rm -f libbochs_cpu.a
 	ar rv libbochs_cpu.a $(BX_OBJS)
 	$(RANLIB) libbochs_cpu.a

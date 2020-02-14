@@ -7,7 +7,7 @@
 #
 ###################################################################
 
-prefix          = /usr/local
+prefix          = /home/s/sreenikhil006/cis520/usr/local
 srcdir          = .
 docdir          = $(prefix)/share/doc/bochs
 DOCBOOK2HTML = not_found

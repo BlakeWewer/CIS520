@@ -19,7 +19,7 @@
 
 .SUFFIXES: .cc
 
-prefix          = /usr/local
+prefix          = /home/s/sreenikhil006/cis520/usr/local
 exec_prefix     = ${prefix}
 srcdir          = .
 
@@ -39,7 +39,7 @@ SHELL = /bin/sh
 
 
 CXX = g++
-CXXFLAGS = $(BX_INCDIRS) -g -O2 -D_FILE_OFFSET_BITS=64 -D_LARGE_FILES 
+CXXFLAGS = $(BX_INCDIRS) -g -O2 -D_FILE_OFFSET_BITS=64 -D_LARGE_FILES  $(X_CFLAGS)
 
 LDFLAGS = 
 LIBS =  -lm
@@ -87,7 +87,7 @@ OBJS_THAT_CAN_BE_PLUGINS = \
    \
    \
    \
-  iodebug.o
+  
 
 OBJS_THAT_SUPPORT_OTHER_PLUGINS = \
   pit82c54.o \

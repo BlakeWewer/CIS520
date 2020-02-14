@@ -51,7 +51,7 @@
 
 // adds support for the GNU readline library in the debugger command
 // prompt.
-#define HAVE_LIBREADLINE 1
+#define HAVE_LIBREADLINE 0
 #define HAVE_READLINE_HISTORY_H 1
 
 // Define to 1 if you have <locale.h>
@@ -288,7 +288,7 @@
 //////////////////////////////////////////////////////////////////////
 
 
-#define BX_WITH_X11 0
+#define BX_WITH_X11 1
 #define BX_WITH_BEOS 0
 #define BX_WITH_WIN32 0
 #define BX_WITH_MACOS 0
@@ -627,10 +627,10 @@ typedef
 
 #endif
 
-#define BX_GDBSTUB 0
-#define BX_DEBUGGER 1
+#define BX_GDBSTUB 1
+#define BX_DEBUGGER 0
 #define BX_DISASM 1
-#define BX_DEBUGGER_GUI 1
+#define BX_DEBUGGER_GUI 0
 
 #if (BX_DEBUGGER == 1) && (BX_DISASM == 0)
   #error Dissembler is required for BX_DEBUGGER !
@@ -642,7 +642,7 @@ typedef
 #define BX_NO_LOGGING 0
 
 // enable BX_ASSERT checks
-#define BX_ASSERT_ENABLE 1
+#define BX_ASSERT_ENABLE 0
 
 // limited i440FX PCI support
 #define BX_SUPPORT_PCI 0
@@ -873,7 +873,7 @@ typedef
 
 
 // I/O Interface to debug
-#define BX_SUPPORT_IODEBUG 1
+#define BX_SUPPORT_IODEBUG 0
 
 #ifdef WIN32
 #define BX_FLOPPY0_NAME "Floppy Disk A:"

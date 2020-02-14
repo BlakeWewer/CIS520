@@ -26,9 +26,9 @@ SHELL = /bin/sh
 
 
 CC       = gcc
-CFLAGS   = -g -O2 -D_FILE_OFFSET_BITS=64 -D_LARGE_FILES 
+CFLAGS   = -g -O2 -D_FILE_OFFSET_BITS=64 -D_LARGE_FILES  $(X_CFLAGS)
 CXX      = g++
-CXXFLAGS = -g -O2 -D_FILE_OFFSET_BITS=64 -D_LARGE_FILES 
+CXXFLAGS = -g -O2 -D_FILE_OFFSET_BITS=64 -D_LARGE_FILES  $(X_CFLAGS)
 
 #CFLAGS  = -Wall -Wstrict-prototypes -fomit-frame-pointer -fno-strict-aliasing -pipe -fno-strength-reduce -mpreferred-stack-boundary=2 -DCPU=686 -march=i686
 
